@@ -1,0 +1,126 @@
+A1:
+delcare variables to hold matrices
+initialize name matrices with first and last
+initialize 3 & 4 matrix with given values
+for each matrix given
+	for each row/col in matrix
+		for each col/row in matrix
+			fill chosen cell with given value
+			incriminate value by given value
+for each index of every cell in each matrix
+	open output file
+		for each row of every matrix
+			print row to output file
+			display output file to user
+A2:
+declare variables to hold matrix files
+open inpcoming files
+	read in matrices line by line
+	store in matrix variable A & B
+if matrices dimensions don't match
+	program halts
+else
+	for each row in both matrices
+		for each col in both matrices
+			add matrices together
+			store in matrix variable C
+	open output file
+		for each row of matrix C
+			print row to file
+			display output to user
+A3:
+define function that can read matrix from incoming files
+define function that can multiply incoming matrices
+define return variable product
+	if dimensions mismatch
+		return None
+	for each row in matrix 1
+		for each col in matrix 2
+			multiply each corresonponding cell
+			store new cells in product matrix
+	return product
+for i in range(1, 5)
+	for j in range(1, 5)
+		if files are not the same
+			declare variables to store chosen files
+			declare variable to hold output file
+			call method and extract matrices from files
+			store returned to matrix A & B
+			if matrices are returned
+				call method and multiply matrices
+				store returned to matrix C
+				if matrix was returned
+					print to output file
+					display to user
+				else
+					inform user of mismatch
+			else
+				inform user files weren't found
+A4:								
+import NumPy
+define function that can read matrix from incoming file
+define function that can write matrix to an output file
+for i in range(1, 5)
+	for j in range(1, 5)
+		if files are not the same
+			declare variables to store chosen files
+			declare variable to hold output add & mult file
+			call method and extract matrices from file
+			store returned to matrix A & B
+			if matrices are returned
+				check of dimensions match
+					use library and add matrices
+					print to output file
+					use library and multiply
+					print output to file
+					display to user
+			else
+				inform user of mismatch
+		else
+			infrom user files weren't found
+A5:
+define function that performs dot product
+declare list variable to hold all given vectors
+prompt user for vectors
+if given vectors are in vector list
+	declare variables to store chosen vectors
+	call method and get the product of A * B
+	store returned to product variable
+	print to output file
+	display to user
+else
+	inform user to enter valid vector names
+A6:
+declare list variable to hold matrices
+for each matrix in every matrix file within the matrix list
+	call method and extract matrices from files
+	call method and multiply returned matrices
+	store returned to tranposed matrix
+	print output to file
+	display to user
+A7:
+import NumPy
+define function that performs dot product using library
+define function that finds transpose using library
+define function that can read matrix from incoming file
+define function that can write matrix to output file
+declare list variable to hold vectors
+prompt user for vectors
+if given vectors are in vector list
+	declare variables to store chosen vectors
+	call method and get the product of A * B
+	store returned to product variable
+	print to output file
+	display to user
+else
+	inform user to enter valid vector names
+declare list variable to hold matrix numbers
+prompt user for matrix
+if given matrix number is in matrix number list
+	declare variable that chooses matrix based off number given
+	call method and get the transpose
+	store returned to transposed variable
+	print to output file
+	display to user
+else
+	inform user to enter valid matrix
