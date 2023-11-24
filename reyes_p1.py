@@ -1,77 +1,46 @@
 #
-# Programing Assignment 1, Part A1
+# Programing Assignment 3, Part 1
 # Name: Irving Reyes Bravo
-# Date: 09/20/2023
+# Date: 11/23/2023
 #
 
+import numpy as np
 
-# declare variables to hold first and last names
-firstName = "Irving"
-lastName = "Reyes"
 
-# declare two sets of rows and columns based off of string's lengths
-mat1Rows = len(lastName)
-mat1Cols = len(firstName)
-mat2Rows = len(lastName)
-mat2Cols = len(firstName)
+# define function that reads in both matrices from a file
+def readInMatrix(filePath):
+    # call funtion to read lines from the incoming file path
+    with open(filePath, 'r') as file:
+        lines = file.readlines()
+        # parse the first three lines as matrix "D"
+        matrixInOut = [list(map(float, line.split())) for line in lines[:3]]
+        # parse the next three lines as matrix "E"
+        matrixExtDemand = [float(line) for line in lines[3:]]
+    return np.array(matrixInOut), np.array(matrixExtDemand)
 
-# initialize first two matrices as empty lists based on the declared rows and cols
-mat1 = [[0] * mat1Cols for _ in range(mat1Rows)]
-mat2 = [[0] * mat2Cols for _ in range(mat2Rows)]
-# initialize next two matrices as empty lists based on set rows and cols
-mat3 = [[0, 0, 0, 0], [0, 0, 0, 0]]
-mat4 = [[0, 0], [0, 0], [0, 0], [0, 0]]
 
-# fill matrix 1 with defined value
-value1st = 1
-# for-loops to iterate over columns then over rows
-for col in range(mat1Cols):
-    for row in range(mat1Rows):
-        mat1[row][col] = value1st
-        # increment matrix value by given set value
-        value1st += 1
+def main():
+    # declare a variable to hold file containing matrices D and E
+    inputFile = "inputMatrices.txt"
+    # call function and read in matrices D and E
+    matrixD, matrixE = readInMatrix(inputFile)
 
-# fill matrix 2 with defined value
-value2nd = 2
-# for-loops to iterate over rows then over columns
-for row in range(mat2Rows):
-    for col in range(mat2Cols):
-        mat2[row][col] = value2nd
-        # increment matrix value by given set value
-        value2nd += 3
+    # declare a variable to hold a (3x3) identity matrix
+    matrixI = np.identity(3)
 
-# fill matrix 3 with defined value
-value3rd = 10
-# for-loops to iterate over columns then over rows
-for col in range(4):
-    for row in range(2):
-        mat3[row][col] = value3rd
-        # increment matrix value by given set value
-        value3rd += -2
+    # declare a variable to store the inverse matrix (I - D)
+    inverseMatrix = np.linalg.inv(matrixI - matrixD)
 
-# fill matrix 4 with defined values
-value4th = -6
-# for-loops to iterate over rows then over columns
-for row in range(4):
-    for col in range(2):
-        mat4[row][col] = value4th
-        # increment matrix value by given set value
-        value4th += 1.5
+    # declare a variable to hold the output matrix X using this formula: X = (I - D)^-1 * E
+    matrixX = np.dot(inverseMatrix, matrixE)
+    # redeclare variable, rounding all elements to the nearest tenth
+    matrixX = np.round(matrixX, decimals=1)
 
-# declare list variable to hold matrix file names
-files = ["reyes_mat1.txt",
-         "reyes_mat2.txt",
-         "reyes_mat3.txt",
-         "reyes_mat4.txt"]
+    # display matrix X to user
+    print("Output Matrix X:")
+    print(matrixX)
 
-# for-loop that iterates through the index of every matrix
-for i, mat in enumerate([mat1, mat2, mat3, mat4]):
-    fileName = files[i]
-    # method that reads matrix from input file
-    with open(fileName, "w") as file:
-        for row in mat:
-            file.write("\t".join(map(str, row)) + "\n")
 
-# for-loop that prints through the matrix of every file
-for i, fileName in enumerate(files):
-    print(f"Matrix {i + 1} has been printed to {fileName}")
+# main loop is called here
+if __name__ == '__main__':
+    main()

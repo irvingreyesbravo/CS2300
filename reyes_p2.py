@@ -1,43 +1,70 @@
 #
-# Programing Assignment 1, Part A2
+# Programing Assignment 3, Part 2
 # Name: Irving Reyes Bravo
-# Date: 09/20/2023
+# Date: 11/23/2023
 #
 
-# declare variables to prompt incoming text files for matrices (A & B) from user
-inputA = input("Enter the filename for Matrix A:\n")
-inputB = input("Enter the filename for Matrix B:\n")
+import numpy as np
+import matplotlib.pyplot as plt
 
-# extract numbers from incoming matrices and store for file name usage
-inputANums = inputA.split("_")[1].split(".")[0]
-inputBNums = inputB.split("_")[1].split(".")[0]
 
-# try-statement that will excuse file processing errors
-try:
-    # method that reads matrix A from input file A
-    with open(inputA, "r") as fileA:
-        matrixA = [list(map(float, line.strip().split("\t"))) for line in fileA]
-    # method that reads matrix B from input file B
-    with open(inputB, "r") as fileB:
-        matrixB = [list(map(float, line.strip().split("\t"))) for line in fileB]
+# define function that reads in pairs (x, y) from a file
+def readInPairs(filePath):
+    # call funtion to read lines from the incoming file path
+    with open(filePath, 'r') as file:
+        lines = file.readlines()
+        # declare a variable to hold new tuple of floats, representing pairs (x, y)
+        pair = [tuple(map(float, line.split())) for line in lines]
+    return np.array(pair)
 
-    # if-statement that checks the dimensions of the incoming values are equal and not empty
-    if len(matrixA) != len(matrixB) or len(matrixA[0]) != len(matrixB[0]):
-        print("Matrices entered cannot be added (different dimensions).")
-    # else (they're fine) the matrices are added together
-    else:
-        # declare variable to store int-casted operation that adds every corresponding row and column together
-        matrixC = [[int(matrixA[i][j] + matrixB[i][j]) for j in range(len(matrixA[0]))] for i in range(len(matrixA))]
 
-        # declare variable to hold output file name based on the matrices sent in
-        outputC = f"reyes_p2_out{inputANums}{inputBNums}.txt"
-        # method that writes matrix A + B (or C) to output file
-        with open(outputC, "w") as output:
-            for row in matrixC:
-                output.write("\t".join(map(str, row)) + "\n")
+# define function that performs the matrix form for linear regression
+def leastSquaresReg(pair):
+    # declare variables to hold incoming pairs (x, y), adding a column of ones for the intercept form
+    X = np.c_[np.ones(pair.shape[0]), pair[:, 0]]
+    Y = pair[:, 1]
 
-        # display to user what file the output was saved to
-        print(f"[A + B] has been printed to {outputC}")
-# except-statement that reminds user to input correct file names
-except FileNotFoundError:
-    print("One or both of the files entered could not be found.")
+    # declare and calculate the coefficients of the least squares regression line
+    A = np.linalg.inv(X.T @ X) @ X.T @ Y
+    return A
+
+
+# define function that plots the points and regression line
+def plotRegLine(pair, data):
+    # declare variables to hold the incoming pairs (x, y)
+    x, y = pair[:, 0], pair[:, 1]
+    # call method and plot the given data points
+    plt.scatter(x, y, color='blue', label='Data Points')
+
+    # declare and calculate regression line using the linear function
+    regLine = data[0] + data[1] * x
+    # call method and plot the regression line
+    plt.plot(x, regLine, color='red', label=f'Regression Line: y = {data[1]:.2f}x + {data[0]:.2f}')
+
+    # call methods for proper labeling and formatting
+    plt.xlabel('Price ($)')
+    plt.ylabel('Monthly Sales')
+    plt.legend()
+    plt.title('Least Squares Regression Analysis')
+    plt.grid(True)
+    plt.show()
+
+
+def main():
+    # declare variable to hold file containing data points
+    inputFile = "dataPoints.txt"
+
+    # call method to read data from the input file
+    data = readInPairs(inputFile)
+    # call method to perform the least squares regression
+    coefficients = leastSquaresReg(data)
+
+    # display the linear equation to the user
+    print(f"Linear Equation: y = {coefficients[1]:.1f}x + {coefficients[0]:.1f}")
+    # call method and plot the data points and the regression line
+    plotRegLine(data, coefficients)
+
+
+# main loop is called here
+if __name__ == '__main__':
+    main()
