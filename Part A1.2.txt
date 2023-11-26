@@ -1,0 +1,3 @@
+PA 2, Part A1.2
+
+Using 4-element column vectors simplifies the matrix operations, ensuring that the dimensions of the incoming data matchs the dimensions of matrix A (and it's inverse).
